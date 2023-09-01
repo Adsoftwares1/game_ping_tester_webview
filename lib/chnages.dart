@@ -3,19 +3,19 @@ class Changes {
   static String mainUrl = 'https://nayabazar.pk/';
 
   // home screen if double tap app should close but navigate to back
-  static String mainMenuUrl = 'https://nayabazar.pk/';
+  // static String mainMenuUrl = 'https://nayabazar.pk/';
 
   // if app start with this navigate else block or opens in external
-  static String startPointUrl = 'https://nayabazar';
+  // static String startPointUrl = 'https://nayabazar';
 
   // if app start with this make a phone call
-  static String makePhoneCallUrl = 'tel:';
+  // static String makePhoneCallUrl = 'tel:';
 
   // if app start with this open whatsapp
-  static String openWhatsAppUrl = 'https://wa.me/';
+  // static String openWhatsAppUrl = 'https://wa.me/';
 
   // if app start with this block navigation
-  static String blockNavigationUrl = 'https://www.youtube.com/';
+  // static String blockNavigationUrl = 'https://www.youtube.com/';
 
   // Title at the Material App
   static String AppTitle = 'Naija Chef Hub';
