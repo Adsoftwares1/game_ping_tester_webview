@@ -85,7 +85,7 @@ class _HomeState extends State<Home> {
         // Check if the current URL is the specified URL
         if (_webViewController != null) {
           final currentUrl = (await _webViewController.getUrl())?.toString();
-          if (currentUrl == Changes.mainMenuUrl) {
+          if (currentUrl == Changes.mainUrl) {
             // _showGoogleInterstitalAd();
             // Close the app when the specified URL is opened
             SystemNavigator.pop();
@@ -252,32 +252,36 @@ class _HomeState extends State<Home> {
                   // This is to trigger a rebuild of the loader widget
                 });
                 var uri = navigationAction.request.url;
-                if (uri!.toString().startsWith(Changes.startPointUrl)) {
+                if (uri!.toString().startsWith(Changes.mainUrl)) {
                   return NavigationActionPolicy.ALLOW;
-                } else if (uri.toString().startsWith(Changes.makePhoneCallUrl)) {
-                  if (kDebugMode) {
-                    print('opening phone $uri');
-                  }
-                  _makePhoneCall(uri.toString());
-                  setState(() {
-                    _isLoading=false;
-                  });
-                  return NavigationActionPolicy.CANCEL;
-                } else if (uri.toString().startsWith(Changes.openWhatsAppUrl)) {
-                  if (kDebugMode) {
-                    print('opening WhatsApp $uri');
-                  }
-                  _openWhatsApp('$uri');
-                   setState(() {
-                    _isLoading=false;
-                  });
-                  return NavigationActionPolicy.CANCEL;
-                } else if (uri.toString().startsWith(Changes.blockNavigationUrl)) {
-                  if (kDebugMode) {
-                    print('Blocking navigation to $uri');
-                  }
-                  return NavigationActionPolicy.CANCEL;
-                } else {
+                } 
+                // else if (uri.toString().startsWith(Changes.makePhoneCallUrl)) {
+                //   if (kDebugMode) {
+                //     print('opening phone $uri');
+                //   }
+                //   _makePhoneCall(uri.toString());
+                //   setState(() {
+                //     _isLoading=false;
+                //   });
+                //   return NavigationActionPolicy.CANCEL;
+                // } 
+                // else if (uri.toString().startsWith(Changes.openWhatsAppUrl)) {
+                //   if (kDebugMode) {
+                //     print('opening WhatsApp $uri');
+                //   }
+                //   _openWhatsApp('$uri');
+                //    setState(() {
+                //     _isLoading=false;
+                //   });
+                //   return NavigationActionPolicy.CANCEL;
+                // } 
+                // else if (uri.toString().startsWith(Changes.blockNavigationUrl)) {
+                //   if (kDebugMode) {
+                //     print('Blocking navigation to $uri');
+                //   }
+                //   return NavigationActionPolicy.CANCEL;
+                // } 
+                else {
                   if (kDebugMode) {
                     print('Opening else link: $uri');
                   }
