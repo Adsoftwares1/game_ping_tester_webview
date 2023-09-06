@@ -177,8 +177,13 @@ class _HomeState extends State<Home> {
                     useShouldOverrideUrlLoading: true,
                   ),
                   ios: IOSInAppWebViewOptions(),
-                  android:
-                      AndroidInAppWebViewOptions(useHybridComposition: true)),
+                  android: AndroidInAppWebViewOptions(
+                    useHybridComposition: true,
+                    loadsImagesAutomatically: true,
+                    mixedContentMode:
+                        AndroidMixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
+                    allowContentAccess: true,
+                  )),
               androidOnPermissionRequest:
                   (controller, origin, resources) async {
                 return PermissionRequestResponse(
@@ -252,9 +257,9 @@ class _HomeState extends State<Home> {
                   // This is to trigger a rebuild of the loader widget
                 });
                 var uri = navigationAction.request.url;
-                if (uri!.toString().startsWith(Changes.mainUrl)) {
+                if (uri!.toString().startsWith(Changes.startPointUrl)) {
                   return NavigationActionPolicy.ALLOW;
-                } 
+                }
                 // else if (uri.toString().startsWith(Changes.makePhoneCallUrl)) {
                 //   if (kDebugMode) {
                 //     print('opening phone $uri');
@@ -264,7 +269,7 @@ class _HomeState extends State<Home> {
                 //     _isLoading=false;
                 //   });
                 //   return NavigationActionPolicy.CANCEL;
-                // } 
+                // }
                 // else if (uri.toString().startsWith(Changes.openWhatsAppUrl)) {
                 //   if (kDebugMode) {
                 //     print('opening WhatsApp $uri');
@@ -274,13 +279,13 @@ class _HomeState extends State<Home> {
                 //     _isLoading=false;
                 //   });
                 //   return NavigationActionPolicy.CANCEL;
-                // } 
+                // }
                 // else if (uri.toString().startsWith(Changes.blockNavigationUrl)) {
                 //   if (kDebugMode) {
                 //     print('Blocking navigation to $uri');
                 //   }
                 //   return NavigationActionPolicy.CANCEL;
-                // } 
+                // }
                 else {
                   if (kDebugMode) {
                     print('Opening else link: $uri');

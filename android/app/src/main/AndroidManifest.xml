@@ -26,9 +26,11 @@
    <uses-permission android:name="android.permission.AUDIO_CAPTURE" /> -->
    <!-- Add more permission entries as needed -->
    <application
-        android:label="Naija Chef Hub"
+        android:label="Doop"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+        >
         <!-- Add the service declaration for custom tabs support -->
         <service
             android:name="android.support.customtabs.CustomTabsService"

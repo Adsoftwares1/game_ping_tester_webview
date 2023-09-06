@@ -1,12 +1,12 @@
 class Changes {
   // main website url
-  static String mainUrl = 'https://nayabazar.pk/';
+  static String mainUrl = 'https://doop.co.za/login/';
 
   // home screen if double tap app should close but navigate to back
   // static String mainMenuUrl = 'https://nayabazar.pk/';
 
   // if app start with this navigate else block or opens in external
-  // static String startPointUrl = 'https://nayabazar';
+  static String startPointUrl = 'https://doop.co.za/';
 
   // if app start with this make a phone call
   // static String makePhoneCallUrl = 'tel:';
@@ -18,7 +18,7 @@ class Changes {
   // static String blockNavigationUrl = 'https://www.youtube.com/';
 
   // Title at the Material App
-  static String AppTitle = 'Naija Chef Hub';
+  static String AppTitle = 'Doop';
 
   //one signal
   // static String oneSignalAppId = '5a7995b4-bc90-4634-b141-c87fbb335a42';
