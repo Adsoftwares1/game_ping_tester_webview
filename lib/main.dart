@@ -3,11 +3,15 @@ import 'package:ezeehome_webview/Screens/Home.dart';
 import 'package:ezeehome_webview/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'chnages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // splash screen time duration
+  await Future.delayed(const Duration(seconds: 5));
+  FlutterNativeSplash.remove();
 
   InitilizeApp.callFunctions();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

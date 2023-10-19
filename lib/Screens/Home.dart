@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Controllers/errors_handling.dart';
+import '../Controllers/google_ads.dart';
 import '../chnages.dart';
 import '../main.dart';
 
@@ -33,9 +35,10 @@ class _HomeState extends State<Home> {
       true; // loading animation or whatever widget called in the Visible widget
 
   // FacebookBannerAd? facebookBannerAd;
-  // bool _isInterstitialAdLoaded = false;
-  // late BannerAd _bannerGoogleAd;
-  // InterstitialAd? _interstialGoogleAd;
+  bool _isInterstitialAdLoaded = false;
+  late BannerAd _bannerGoogleAd;
+  InterstitialAd? _interstialGoogleAd;
+  bool _isLoaded = false;
   //for loading progress
   // double? progress;
   // bool loader = false;
@@ -44,6 +47,8 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     CheckInternetConnection.checkInternetFunction();
+    _createGoogleBannerAd();
+    _createGoogleInterstitialAd();
 
     pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
@@ -61,15 +66,16 @@ class _HomeState extends State<Home> {
     );
     browser.pullToRefreshController = pullToRefreshController;
 
-    super.initState();
+    //super.initState();
     // Facebook Ads Work
     // FacebookAudienceNetwork.init(
     //     //testingId: "a77955ee-3304-4635-be65-81029b0f5201", //optional
     //     iOSAdvertiserTrackingEnabled: true //default false
     //     );
     //Load Google Ads
-    // _createGoogleBannerAd();
-    // _createGoogleInterstitialAd();
+    //if(CheckInternetConnection.checkInternet == true){
+
+    //}
   }
 
   @override
@@ -85,21 +91,23 @@ class _HomeState extends State<Home> {
         // Check if the current URL is the specified URL
         if (_webViewController != null) {
           final currentUrl = (await _webViewController.getUrl())?.toString();
-          if (currentUrl == Changes.mainUrl) {
-            // _showGoogleInterstitalAd();
-            // Close the app when the specified URL is opened
-            SystemNavigator.pop();
+          //bool canGoBack = await _webViewController.canGoBack();
+          // if (currentUrl == Changes.mainUrl) {
+          //   // _showGoogleInterstitalAd();
+          //   // Close the app when the specified URL is opened
+          //   SystemNavigator.pop();
 
+          //   return false;
+          // } else {
+          // If not on the specified URL, check if the web view can go back
+          bool canGoBack = await _webViewController.canGoBack();
+          if (canGoBack) {
+            _webViewController.goBack();
             return false;
-          } else {
-            // If not on the specified URL, check if the web view can go back
-            bool canGoBack = await _webViewController.canGoBack();
-            if (canGoBack) {
-              _webViewController.goBack();
-              return false;
-            }
           }
+          //}
         }
+        _showGoogleInterstitalAd();
         return true;
       },
       // onWillPop: () async {
@@ -144,13 +152,13 @@ class _HomeState extends State<Home> {
               },
               onProgressChanged: (controller, progress) {
                 setState(() {
-                  _progress = progress / 100;
+                  // _progress = progress / 100;
                   // _progressText = progress;  // to show inside of loading
                   // if (_progress > 0.8) {
                   //   setState(() {
                   //     _isLoading = false;
                   //   });
-                  // }
+                  //}
                 });
               },
               onLoadError: (controller, url, code, message) {
@@ -308,22 +316,34 @@ class _HomeState extends State<Home> {
             // Positioned.fill(
             //   child: Visibility(
             //     visible: _isLoading,
-            //     child: Lottie.asset('assets/images/loading2.json',
-            //         fit: BoxFit.fill),
+            //     child: CircularProgressIndicator(
+            //       // value: _progress,
+            //       color: Colors.brown,
+            //     ),
             //   ),
             // ),
+
+            Visibility(
+              visible:
+                  _isLoading, // Show the progress indicator only when loading
+              child: Center(
+                  child: CircularProgressIndicator(
+                // value: _progress,
+                color: Colors.orange,
+              )),
+            ),
           ],
         ),
 
         // // for banner ads
-        // bottomNavigationBar: _bannerGoogleAd != null
-        //     ? Container(
-        //         decoration: BoxDecoration(color: Colors.transparent),
-        //         height: _bannerGoogleAd.size.height.toDouble(),
-        //         width: _bannerGoogleAd.size.width.toDouble(),
-        //         child: AdWidget(ad: _bannerGoogleAd),
-        //       )
-        //     : SizedBox(),
+        bottomNavigationBar: _isLoaded == true
+            ? Container(
+                decoration: BoxDecoration(color: Colors.transparent),
+                height: _bannerGoogleAd.size.height.toDouble(),
+                width: _bannerGoogleAd.size.width.toDouble(),
+                child: AdWidget(ad: _bannerGoogleAd),
+              )
+            : SizedBox(),
         //for facebook ads
         // bottomNavigationBar: Container(
         //   child: facebookBannerAd,
@@ -332,40 +352,53 @@ class _HomeState extends State<Home> {
     );
   }
 
-// // call this in init so you can create it
-//   void _createGoogleBannerAd() {
-//     _bannerGoogleAd = BannerAd(
-//         size: AdSize.banner,
-//         adUnitId: AdsMobServices.BannerAdUnitId!,
-//         listener: AdsMobServices.bannerAdListener,
-//         request: AdRequest())
-//       ..load();
-//   }
-// // call this in init so you can create it
-//   void _createGoogleInterstitialAd() {
-//     InterstitialAd.load(
-//         adUnitId: AdsMobServices.InterstitialAdId!,
-//         request: AdRequest(),
-//         adLoadCallback: InterstitialAdLoadCallback(
-//             onAdLoaded: (ad) => _interstialGoogleAd = ad,
-//             onAdFailedToLoad: (LoadAdError loadAdError) =>
-//                 _interstialGoogleAd = null));
-//   }
-// // call this to show where every in the app you want to show google interstitalAd
-//   void _showGoogleInterstitalAd() {
-//     if (_interstialGoogleAd != null) {
-//       _interstialGoogleAd!.fullScreenContentCallback =
-//           FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
-//         ad.dispose();
-//         _createGoogleInterstitialAd();
-//       }, onAdFailedToShowFullScreenContent: (ad, error) {
-//         ad.dispose();
-//         _createGoogleInterstitialAd();
-//       });
-//       _interstialGoogleAd!.show();
-//       _interstialGoogleAd = null;
-//     }
-//   }
+// call this in init so you can create it
+  void _createGoogleBannerAd() {
+    _bannerGoogleAd = BannerAd(
+      size: AdSize.banner,
+      adUnitId: AdsMobServices.BannerAdUnitId!,
+      listener: BannerAdListener(
+        onAdLoaded: (Ad) {
+          setState(() {
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad, Error) {
+          print('My Add failed Error: //////////// $Error');
+        },
+      ),
+      //AdsMobServices.bannerAdListener,
+      request: AdRequest(),
+    );
+    _bannerGoogleAd.load();
+  }
+
+// call this in init so you can create it
+  void _createGoogleInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdsMobServices.InterstitialAdId!,
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad) => _interstialGoogleAd = ad,
+            onAdFailedToLoad: (LoadAdError loadAdError) =>
+                _interstialGoogleAd = null));
+  }
+
+// call this to show where every in the app you want to show google interstitalAd
+  void _showGoogleInterstitalAd() {
+    if (_interstialGoogleAd != null) {
+      _interstialGoogleAd!.fullScreenContentCallback =
+          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _createGoogleInterstitialAd();
+      }, onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+        _createGoogleInterstitialAd();
+      });
+      _interstialGoogleAd!.show();
+      _interstialGoogleAd = null;
+    }
+  }
 
   Future<void> _launchExternalUrl(String url) async {
     if (await canLaunch(url)) {
