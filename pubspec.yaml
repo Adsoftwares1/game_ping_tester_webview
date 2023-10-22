@@ -64,15 +64,15 @@ dev_dependencies:
 flutter_icons: 
   android: true
   ios: true
-  image_path: "assets/images/icon.png"
+  image_path: "assets/images/logo.png"
 
 
 flutter_native_splash:
-  background_image: "assets/images/splash.png"
+  #background_image: "assets/images/logo.png"
   #image_path: "assets/images/splash.png"
   #image_mode: "cover"
-  #color: "#000000"
-  #image: 'assets/images/icon.png'
+  color: "#ffffff"
+  image: 'assets/images/logo.png'
   android: true
   ios: true
 

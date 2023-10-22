@@ -10,7 +10,7 @@ import 'chnages.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // splash screen time duration
-  await Future.delayed(const Duration(seconds: 5));
+  await Future.delayed(const Duration(seconds: 3));
   FlutterNativeSplash.remove();
 
   InitilizeApp.callFunctions();
