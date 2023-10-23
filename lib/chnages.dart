@@ -1,14 +1,14 @@
 class Changes {
   // main website url
-  static String mainUrl = 'https://askgold.net';
+  static String mainUrl = 'https://www.frweb.top/h5508/';
 
   // home screen if double tap app should close but navigate to back
   // static String mainMenuUrl = 'https://nayabazar.pk/';
 
   // if app start with this navigate else block or opens in external
-  static String startPointUrl = 'https://askgold';
+  static String startPointUrl = 'https://www.frweb';
 
-  static String startPointUrl2 = 'https://h5.askgold';
+  // static String startPointUrl2 = 'https://h5.askgold';
 
   // if app start with this make a phone call
   // static String makePhoneCallUrl = 'tel:';
@@ -20,7 +20,7 @@ class Changes {
   // static String blockNavigationUrl = 'https://www.youtube.com/';
 
   // Title at the Material App
-  static String AppTitle = 'Askgold';
+  static String AppTitle = 'FTSE VIP';
 
   //one signal
   // static String oneSignalAppId = '5a7995b4-bc90-4634-b141-c87fbb335a42';
