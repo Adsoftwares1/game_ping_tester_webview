@@ -47,8 +47,8 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     CheckInternetConnection.checkInternetFunction();
-    // _createGoogleBannerAd();
-    // _createGoogleInterstitialAd();
+    _createGoogleBannerAd();
+    _createGoogleInterstitialAd();
 
     pullToRefreshController = PullToRefreshController(
       options: PullToRefreshOptions(
@@ -107,7 +107,7 @@ class _HomeState extends State<Home> {
           }
           //}
         }
-        //_showGoogleInterstitalAd();
+        _showGoogleInterstitalAd();
         return true;
       },
       // onWillPop: () async {
@@ -336,14 +336,14 @@ class _HomeState extends State<Home> {
         ),
 
         // // for banner ads
-        // bottomNavigationBar: _isLoaded == true
-        //     ? Container(
-        //         decoration: BoxDecoration(color: Colors.transparent),
-        //         height: _bannerGoogleAd.size.height.toDouble(),
-        //         width: _bannerGoogleAd.size.width.toDouble(),
-        //         child: AdWidget(ad: _bannerGoogleAd),
-        //       )
-        //     : SizedBox(),
+        bottomNavigationBar: _isLoaded == true
+            ? Container(
+                decoration: BoxDecoration(color: Colors.transparent),
+                height: _bannerGoogleAd.size.height.toDouble(),
+                width: _bannerGoogleAd.size.width.toDouble(),
+                child: AdWidget(ad: _bannerGoogleAd),
+              )
+            : SizedBox(),
         //for facebook ads
         // bottomNavigationBar: Container(
         //   child: facebookBannerAd,
@@ -353,52 +353,52 @@ class _HomeState extends State<Home> {
   }
 
 // call this in init so you can create it
-  // void _createGoogleBannerAd() {
-  //   _bannerGoogleAd = BannerAd(
-  //     size: AdSize.banner,
-  //     adUnitId: AdsMobServices.BannerAdUnitId!,
-  //     listener: BannerAdListener(
-  //       onAdLoaded: (Ad) {
-  //         setState(() {
-  //           _isLoaded = true;
-  //         });
-  //       },
-  //       onAdFailedToLoad: (Ad, Error) {
-  //         print('My Add failed Error: //////////// $Error');
-  //       },
-  //     ),
-  //     //AdsMobServices.bannerAdListener,
-  //     request: AdRequest(),
-  //   );
-  //   _bannerGoogleAd.load();
-  // }
+  void _createGoogleBannerAd() {
+    _bannerGoogleAd = BannerAd(
+      size: AdSize.banner,
+      adUnitId: AdsMobServices.BannerAdUnitId!,
+      listener: BannerAdListener(
+        onAdLoaded: (Ad) {
+          setState(() {
+            _isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad, Error) {
+          print('My Add failed Error: //////////// $Error');
+        },
+      ),
+      //AdsMobServices.bannerAdListener,
+      request: AdRequest(),
+    );
+    _bannerGoogleAd.load();
+  }
 
 // call this in init so you can create it
-  // void _createGoogleInterstitialAd() {
-  //   InterstitialAd.load(
-  //       adUnitId: AdsMobServices.InterstitialAdId!,
-  //       request: AdRequest(),
-  //       adLoadCallback: InterstitialAdLoadCallback(
-  //           onAdLoaded: (ad) => _interstialGoogleAd = ad,
-  //           onAdFailedToLoad: (LoadAdError loadAdError) =>
-  //               _interstialGoogleAd = null));
-  // }
+  void _createGoogleInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: AdsMobServices.InterstitialAdId!,
+        request: AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad) => _interstialGoogleAd = ad,
+            onAdFailedToLoad: (LoadAdError loadAdError) =>
+                _interstialGoogleAd = null));
+  }
 
 // call this to show where every in the app you want to show google interstitalAd
-  // void _showGoogleInterstitalAd() {
-  //   if (_interstialGoogleAd != null) {
-  //     _interstialGoogleAd!.fullScreenContentCallback =
-  //         FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
-  //       ad.dispose();
-  //       _createGoogleInterstitialAd();
-  //     }, onAdFailedToShowFullScreenContent: (ad, error) {
-  //       ad.dispose();
-  //       _createGoogleInterstitialAd();
-  //     });
-  //     _interstialGoogleAd!.show();
-  //     _interstialGoogleAd = null;
-  //   }
-  // }
+  void _showGoogleInterstitalAd() {
+    if (_interstialGoogleAd != null) {
+      _interstialGoogleAd!.fullScreenContentCallback =
+          FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+        ad.dispose();
+        _createGoogleInterstitialAd();
+      }, onAdFailedToShowFullScreenContent: (ad, error) {
+        ad.dispose();
+        _createGoogleInterstitialAd();
+      });
+      _interstialGoogleAd!.show();
+      _interstialGoogleAd = null;
+    }
+  }
 
   Future<void> _launchExternalUrl(String url) async {
     if (await canLaunch(url)) {
